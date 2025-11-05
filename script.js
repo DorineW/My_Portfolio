@@ -16,12 +16,154 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        nav.style.background = 'rgba(255, 255, 255, 0.95)';
+        nav.style.background = 'rgba(243, 233, 220, 0.95)';
         nav.style.backdropFilter = 'blur(10px)';
     } else {
-        nav.style.background = 'var(--white)';
-        nav.style.backdropFilter = 'none';
+        nav.style.background = 'var(--glass)';
+        nav.style.backdropFilter = 'blur(10px)';
     }
+});
+
+// Animate stats counting
+function animateStats() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    statNumbers.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                stat.textContent = target + (stat.getAttribute('data-target').includes('+') ? '+' : '');
+                clearInterval(timer);
+            } else {
+                stat.textContent = Math.floor(current);
+            }
+        }, 16);
+    });
+}
+
+// Animate skill bars on scroll
+function animateSkills() {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const skillBar = entry.target;
+                const width = skillBar.getAttribute('data-width') + '%';
+                skillBar.style.width = width;
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => observer.observe(bar));
+}
+
+// Typing animation for hero text
+function initTypingAnimation() {
+    const text = "Data Analyst & Full-Stack Developer";
+    const element = document.querySelector('.typing-animation');
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            element.textContent = text.substring(0, index + 1);
+            index++;
+            setTimeout(type, 100);
+        }
+    }
+    
+    // Start typing after a delay
+    setTimeout(type, 1000);
+}
+
+// Glitch effect enhancement
+function initGlitchEffect() {
+    const glitchElements = document.querySelectorAll('.glitch');
+    
+    glitchElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            element.style.animation = 'glitch-1 0.3s infinite linear alternate-reverse';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.animation = '';
+        });
+    });
+}
+
+// Scan effect for buttons
+function initScanEffects() {
+    const scanButtons = document.querySelectorAll('.scan-effect');
+    
+    scanButtons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            const scanLine = button.querySelector('.scan-line');
+            scanLine.style.animation = 'none';
+            void scanLine.offsetWidth; // Trigger reflow
+            scanLine.style.animation = null;
+        });
+    });
+}
+
+// Floating particles background (simplified)
+function initFloatingParticles() {
+    const particlesContainer = document.querySelector('.animated-bg');
+    
+    for (let i = 0; i < 5; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'floating-particle';
+        particle.style.cssText = `
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--emerald);
+            border-radius: 50%;
+            opacity: 0.3;
+            top: ${Math.random() * 100}%;
+            left: ${Math.random() * 100}%;
+            animation: floatParticle ${10 + Math.random() * 20}s linear infinite;
+        `;
+        particlesContainer.appendChild(particle);
+    }
+    
+    // Add CSS for particle animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.3; }
+            25% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(90deg); }
+            50% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(180deg); opacity: 0.1; }
+            75% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); opacity: 0.3; }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize all animations when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Start animations with delays
+    setTimeout(animateStats, 500);
+    setTimeout(initTypingAnimation, 800);
+    setTimeout(animateSkills, 1000);
+    
+    // Initialize effects
+    initGlitchEffect();
+    initScanEffects();
+    initFloatingParticles();
+    
+    // Add loading animation
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
 });
 
 // Intersection Observer for fade-in animations
@@ -40,19 +182,14 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.project-card, .contact-item, .about-text, .skills-preview').forEach(el => {
+document.querySelectorAll('.project-card, .contact-item, .about-text, .skills-preview, .skill-category').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
 });
 
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
+// Handle window resize
+window.addEventListener('resize', () => {
+    // Re-initialize any responsive elements if needed
 });

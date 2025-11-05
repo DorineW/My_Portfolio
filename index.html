@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="light-beam"></div>
+        <div class="light-beam"></div>
+        <div class="light-beam"></div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -18,6 +25,7 @@
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -27,20 +35,45 @@
     <section class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1>Data Analyst & Developer</h1>
-                <h2>Dorine Wairimu</h2>
-                <p>Business Intelligence major specializing in data analysis, database management, and full-stack development</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="assets/resume.pdf" download class="btn btn-secondary">
-                        <i class="fas fa-download"></i> Download CV
-                    </a>
+                <div class="hero-text">
+                    <h1 class="glitch" data-text="Dorine Wairimu">Dorine Wairimu</h1>
+                    <h2 class="typing-animation">Data Analyst & Full-Stack Developer</h2>
+                    <p>I build data-driven solutions and scalable applications with a focus on business intelligence and user experience.</p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary scan-effect">
+                            <span class="btn-text">View Projects</span>
+                            <div class="scan-line"></div>
+                        </a>
+                        <a href="assets/cv.pdf" download class="btn btn-secondary scan-effect">
+                            <i class="fas fa-download"></i>
+                            <span class="btn-text">Download CV</span>
+                            <div class="scan-line"></div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="image-placeholder">
-                    <i class="fas fa-user"></i>
+                <div class="profile-container">
+                    <img src="assets/images/profile.jpg" alt="Dorine Wairimu" class="profile-image">
+                    <div class="profile-glow"></div>
+                    <div class="profile-scan"></div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Animated stats -->
+        <div class="floating-stats">
+            <div class="stat-item">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Technologies</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="3">0</div>
+                <div class="stat-label">Years</div>
             </div>
         </div>
     </section>
@@ -48,32 +81,66 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title">
+                <span class="title-glow">About</span>
+            </h2>
             <div class="about-grid">
                 <div class="about-text">
                     <p>I'm a Business Information Technology student at Strathmore University, specializing in Business Intelligence. I bridge the gap between data analysis and practical application through full-stack development.</p>
                     <p>My expertise spans data engineering, time series forecasting, database management, and mobile app development. I'm passionate about transforming complex data into actionable insights and building solutions that make a difference.</p>
                     
-                    <div class="education">
-                        <h3>Education</h3>
-                        <div class="education-item">
-                            <h4>Bachelor of Business Information Technology</h4>
-                            <p class="institution">Strathmore University</p>
-                            <p class="date">2022 - Present</p>
-                            <p class="major">Major: Business Intelligence</p>
+                    <div class="code-terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="terminal-title">about_me.js</span>
+                        </div>
+                        <div class="terminal-content">
+                            <div class="code-line">
+                                <span class="code-keyword">const</span>
+                                <span class="code-variable">developer</span>
+                                <span class="code-operator">=</span>
+                                <span class="code-bracket">{</span>
+                            </div>
+                            <div class="code-line indent">
+                                <span class="code-property">focus</span>
+                                <span class="code-operator">:</span>
+                                <span class="code-string">"Data Analysis & Business Intelligence"</span>
+                                <span class="code-operator">,</span>
+                            </div>
+                            <div class="code-line indent">
+                                <span class="code-property">technologies</span>
+                                <span class="code-operator">:</span>
+                                <span class="code-bracket">[</span>
+                                <span class="code-string">"Dart"</span>
+                                <span class="code-operator">,</span>
+                                <span class="code-string">"Supabase"</span>
+                                <span class="code-operator">,</span>
+                                <span class="code-string">"R Studio"</span>
+                                <span class="code-operator">,</span>
+                                <span class="code-string">"Kafka"</span>
+                                <span class="code-bracket">]</span>
+                            </div>
+                            <div class="code-line">
+                                <span class="code-bracket">}</span>
+                                <span class="code-operator">;</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="skills-preview">
-                    <h3>Core Competencies</h3>
+                    <h3>Featured Technologies</h3>
                     <div class="skill-tags">
-                        <span>Data Analysis</span>
-                        <span>Business Intelligence</span>
-                        <span>Database Management</span>
-                        <span>Mobile Development</span>
-                        <span>Data Engineering</span>
-                        <span>Time Series Forecasting</span>
+                        <span class="skill-tag pulse">Data Analysis</span>
+                        <span class="skill-tag pulse">Business Intelligence</span>
+                        <span class="skill-tag pulse">Database Management</span>
+                        <span class="skill-tag pulse">Mobile Development</span>
+                        <span class="skill-tag pulse">Data Engineering</span>
+                        <span class="skill-tag pulse">Time Series</span>
                     </div>
                 </div>
             </div>
@@ -83,11 +150,20 @@
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title">Projects</h2>
+            <h2 class="section-title">
+                <span class="title-glow">Projects</span>
+            </h2>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="assets/images/ouma-home.jpg" alt="Ouma's Delicacy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/DorineW/oumas_delicacy" target="_blank" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="project-content">
                         <h3>Ouma's Delicacy</h3>
@@ -98,18 +174,21 @@
                             <span>Supabase</span>
                             <span>PostgreSQL</span>
                         </div>
-                        <div class="project-links">
-                            <a href="https://github.com/DorineW/oumas_delicacy" target="_blank">
-                                <i class="fab fa-github"></i> View Code
-                            </a>
-                        </div>
                     </div>
+                    <div class="project-glow"></div>
                 </div>
 
                 <div class="project-card">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <span class="project-link">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-content">
@@ -121,12 +200,20 @@
                             <span>Forecasting</span>
                         </div>
                     </div>
+                    <div class="project-glow"></div>
                 </div>
 
                 <div class="project-card">
                     <div class="project-image">
                         <div class="project-placeholder">
                             <i class="fas fa-database"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <span class="project-link">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="project-content">
@@ -139,6 +226,98 @@
                             <span>Data Engineering</span>
                         </div>
                     </div>
+                    <div class="project-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-glow">Skills</span>
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-database"></i>
+                        <h3>Data Analysis & BI</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">R Studio</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Time Series Forecasting</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="78"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Data Visualization</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="82"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-code"></i>
+                        <h3>Development</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Dart/Flutter</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">JavaScript</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Java</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-server"></i>
+                        <h3>Database & Tools</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Supabase</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">PostgreSQL</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="82"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Docker</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,46 +326,48 @@
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
+            <h2 class="section-title">
+                <span class="title-glow">Contact</span>
+            </h2>
             <div class="contact-content">
                 <div class="contact-info">
-                    <div class="contact-item">
+                    <div class="contact-item scan-hover">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-details">
                             <h3>Email</h3>
-                            <p>dorinewairimu001@gmail.com</p>
+                            <a href="mailto:dorinewairimu001@gmail.com">dorinewairimu001@gmail.com</a>
                         </div>
                     </div>
                     
-                    <div class="contact-item">
+                    <div class="contact-item scan-hover">
                         <div class="contact-icon">
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="contact-details">
                             <h3>Phone</h3>
-                            <p>+254700182990</p>
+                            <a href="tel:+254700182990">+254700182990</a>
                         </div>
                     </div>
                     
-                    <div class="contact-item">
+                    <div class="contact-item scan-hover">
                         <div class="contact-icon">
                             <i class="fab fa-linkedin"></i>
                         </div>
                         <div class="contact-details">
                             <h3>LinkedIn</h3>
-                            <p>linkedin.com/in/dorine-wairimu</p>
+                            <a href="https://linkedin.com/in/dorine-wairimu-36039a222" target="_blank">linkedin.com/in/dorine-wairimu</a>
                         </div>
                     </div>
                     
-                    <div class="contact-item">
+                    <div class="contact-item scan-hover">
                         <div class="contact-icon">
                             <i class="fab fa-github"></i>
                         </div>
                         <div class="contact-details">
                             <h3>GitHub</h3>
-                            <p>github.com/DorineW</p>
+                            <a href="https://github.com/DorineW" target="_blank">github.com/DorineW</a>
                         </div>
                     </div>
                 </div>
@@ -197,7 +378,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 Dorine Wairimu. All rights reserved.</p>
+            <p>&copy; 2025 Dorine Wairimu. All rights reserved.</p>
         </div>
     </footer>
 
