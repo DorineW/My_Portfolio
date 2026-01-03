@@ -26,8 +26,8 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="certifications">Certifications</a></li><li><a href="#contact">Contact</a></li>
-                
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -61,22 +61,7 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Animated stats - Updated with realistic numbers -->
-        <div class="floating-stats">
-            <div class="stat-item">
-                <div class="stat-number" data-target="2">0</div>
-                <div class="stat-label">Work Experience</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-target="3">0</div>
-                <div class="stat-label">Languages</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" data-target="3">0</div>
-                <div class="stat-label">Hobbies</div>
-            </div>
-        </div>
+        <!-- Removed floating stats as requested -->
     </section>
 
     <!-- About Section -->
@@ -157,14 +142,29 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-mobile-alt"></i>
+                        <!-- Video Widget for Ouma's Delicacy -->
+                        <div class="video-widget-small">
+                            <video id="smallVideo" class="video-player" muted loop playsinline>
+                                <source src="assets/OumaDelVid.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="video-overlay" onclick="openVideoModal()">
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="video-label">
+                                    <i class="fas fa-mobile-alt"></i> Demo Video
+                                </div>
+                            </div>
                         </div>
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/DorineW/oumas_delicacy" target="_blank" class="project-link">
                                     <i class="fab fa-github"></i>
                                 </a>
+                                <div class="project-link" onclick="openVideoModal()">
+                                    <i class="fas fa-play"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -332,6 +332,40 @@
         </div>
     </section>
 
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-glow">Certifications</span>
+            </h2>
+            <div class="certifications-grid">
+                <div class="certification-item" onclick="openCertificateModal('assets/Diploma.png', 'Diploma in Business Information Technology')">
+                    <div class="certification-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="certification-content">
+                        <h3>Diploma in Business Information Technology</h3>
+                        <p>Strathmore University</p>
+                        <span class="certification-view">Click to view</span>
+                    </div>
+                    <div class="certification-glow"></div>
+                </div>
+
+                <div class="certification-item" onclick="openCertificateModal('assets/AWSGen.png', 'AWS Academy Generative AI Foundations')">
+                    <div class="certification-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <div class="certification-content">
+                        <h3>AWS Academy Generative AI Foundations</h3>
+                        <p>Amazon Web Services</p>
+                        <span class="certification-view">Click to view</span>
+                    </div>
+                    <div class="certification-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -391,6 +425,130 @@
         </div>
     </footer>
 
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('certificateModal')">&times;</span>
+            <img id="certificateImage" src="" alt="Certificate">
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="downloadCertificate()">
+                    <i class="fas fa-download"></i> Download
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('certificateModal')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal video-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
+            <div class="video-container">
+                <video id="largeVideo" controls playsinline>
+                    <source src="assets/OumaDelVid.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('videoModal')">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        // Modal Functions
+        function openCertificateModal(imageSrc, title) {
+            const modal = document.getElementById('certificateModal');
+            const image = document.getElementById('certificateImage');
+            image.src = imageSrc;
+            image.alt = title;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const smallVideo = document.getElementById('smallVideo');
+            const largeVideo = document.getElementById('largeVideo');
+            
+            // Pause small video
+            smallVideo.pause();
+            
+            // Show modal and play large video
+            modal.style.display = 'flex';
+            largeVideo.currentTime = smallVideo.currentTime;
+            largeVideo.play();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            
+            if (modalId === 'videoModal') {
+                const smallVideo = document.getElementById('smallVideo');
+                const largeVideo = document.getElementById('largeVideo');
+                
+                // Pause large video and resume small video
+                largeVideo.pause();
+                smallVideo.play();
+            }
+            
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function downloadCertificate() {
+            const image = document.getElementById('certificateImage');
+            const link = document.createElement('a');
+            link.href = image.src;
+            link.download = image.alt.replace(/\s+/g, '_') + '.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const certModal = document.getElementById('certificateModal');
+            const videoModal = document.getElementById('videoModal');
+            
+            if (event.target === certModal) {
+                closeModal('certificateModal');
+            }
+            if (event.target === videoModal) {
+                closeModal('videoModal');
+            }
+        }
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal('certificateModal');
+                closeModal('videoModal');
+            }
+        });
+
+        // Start small video on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const smallVideo = document.getElementById('smallVideo');
+            if (smallVideo) {
+                // Try to autoplay with muted audio
+                smallVideo.muted = true;
+                const playPromise = smallVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // Autoplay prevented, show play button
+                        console.log("Autoplay prevented");
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
