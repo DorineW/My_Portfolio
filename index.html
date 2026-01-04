@@ -133,56 +133,73 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="title-glow">Projects</span>
-            </h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <!-- Video Widget for Ouma's Delicacy -->
-                        <div class="video-widget-small">
-                            <video id="smallVideo" class="video-player" muted loop playsinline>
-                                <source src="assets/OumaDelVid.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                            <div class="video-overlay" onclick="openVideoModal()">
-                                <div class="play-icon">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                                <div class="video-label">
-                                    <i class="fas fa-mobile-alt"></i> Demo Video
-                                </div>
+<section id="projects" class="projects">
+    <div class="container">
+        <h2 class="section-title">
+            <span class="title-glow">Projects</span>
+        </h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <!-- Video Widget for Ouma's Delicacy -->
+                    <div class="video-widget-small">
+                        <video id="smallVideo" class="video-player" muted loop playsinline preload="auto">
+                            <source src="assets/OumaDelVid.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="openVideoModal()">
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
                             </div>
-                        </div>
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="https://github.com/DorineW/oumas_delicacy" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <div class="project-link" onclick="openVideoModal()">
-                                    <i class="fas fa-play"></i>
-                                </div>
+                            <div class="video-label">
+                                <i class="fas fa-mobile-alt"></i> Tap to Play Demo
                             </div>
                         </div>
                     </div>
-                    <div class="project-content">
-                        <h3><a href="https://github.com/DorineW/oumas_delicacy" target="_blank" style="color: inherit; text-decoration: none;">Ouma's Delicacy</a></h3>
-                        <p>Full-stack food delivery mobile application with user authentication, menu management, and order processing system.</p>
-                        <div class="project-tech">
-                            <span>Dart</span>
-                            <span>Flutter</span>
-                            <span>Supabase</span>
-                            <span>PostgreSQL</span>
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://github.com/DorineW/oumas_delicacy" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <div class="project-link" onclick="openVideoModal()">
+                                <i class="fas fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-glow"></div>
                 </div>
+                <div class="project-content">
+                    <h3><a href="https://github.com/DorineW/oumas_delicacy" target="_blank" style="color: inherit; text-decoration: none;">Ouma's Delicacy</a></h3>
+                    <p>Full-stack food delivery mobile application with user authentication, menu management, and order processing system.</p>
+                    <div class="project-tech">
+                        <span>Dart</span>
+                        <span>Flutter</span>
+                        <span>Supabase</span>
+                        <span>PostgreSQL</span>
+                    </div>
+                </div>
+                <div class="project-glow"></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
+<!-- Video Modal -->
+<div id="videoModal" class="modal video-modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+        <div class="video-container">
+            <video id="largeVideo" controls playsinline>
+                <source src="assets/OumaDelVid.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeVideoModal()">
+                Close Video
+            </button>
+        </div>
+    </div>
+</div>
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">

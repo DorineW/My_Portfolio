@@ -124,33 +124,41 @@ function initFloatingParticles() {
 }
 
 // Video Modal Functions
+let videoModalOpen = false;
+
 function openVideoModal() {
     const modal = document.getElementById('videoModal');
     const smallVideo = document.getElementById('smallVideo');
     const largeVideo = document.getElementById('largeVideo');
     
-    // Pause small video
-    if (smallVideo) {
-        smallVideo.pause();
-    }
-    
-    // Show modal and play large video
+    // Show modal
     modal.style.display = 'flex';
-    if (smallVideo && largeVideo) {
-        largeVideo.currentTime = smallVideo.currentTime;
-    }
+    document.body.style.overflow = 'hidden';
+    videoModalOpen = true;
     
-    // Try to play the large video
+    // Initialize large video
     if (largeVideo) {
+        largeVideo.currentTime = smallVideo ? smallVideo.currentTime : 0;
+        largeVideo.muted = false;
+        largeVideo.volume = 1.0;
+        
+        // Try to play with a promise
         const playPromise = largeVideo.play();
+        
         if (playPromise !== undefined) {
             playPromise.catch(error => {
-                console.log("Autoplay prevented:", error);
+                console.log("Video play failed, trying with user gesture:", error);
+                // Show play button overlay for user interaction
+                largeVideo.controls = true;
             });
         }
     }
     
-    document.body.style.overflow = 'hidden';
+    // Hide the small video overlay when modal is open
+    const videoOverlay = document.querySelector('.video-overlay');
+    if (videoOverlay) {
+        videoOverlay.style.display = 'none';
+    }
 }
 
 function closeVideoModal() {
@@ -158,66 +166,101 @@ function closeVideoModal() {
     const smallVideo = document.getElementById('smallVideo');
     const largeVideo = document.getElementById('largeVideo');
     
-    // Pause large video and resume small video
+    // Hide modal
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    videoModalOpen = false;
+    
+    // Pause and reset large video
     if (largeVideo) {
         largeVideo.pause();
-        largeVideo.currentTime = 0; // Reset to beginning
+        largeVideo.currentTime = 0;
+        largeVideo.controls = false;
     }
     
-    // Resume small video
+    // Show the small video overlay again
+    const videoOverlay = document.querySelector('.video-overlay');
+    if (videoOverlay) {
+        videoOverlay.style.display = 'flex';
+    }
+    
+    // Restart small video if it was playing
     if (smallVideo) {
+        // Only restart if the small video should autoplay
         const playPromise = smallVideo.play();
         if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.log("Small video autoplay prevented:", error);
+            playPromise.catch(e => {
+                console.log("Small video autoplay prevented after modal close:", e);
             });
         }
     }
-    
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
 }
 
-// Initialize small video with user interaction
+// Initialize small video with better autoplay handling
 function initVideoPlayback() {
     const smallVideo = document.getElementById('smallVideo');
-    const playOverlay = document.querySelector('.video-overlay');
+    const videoOverlay = document.querySelector('.video-overlay');
     
     if (!smallVideo) return;
     
-    // Try to autoplay on page load
+    // Set video attributes for better autoplay
     smallVideo.muted = true;
+    smallVideo.playsInline = true;
+    smallVideo.preload = "auto";
     
-    // Try to play with a small delay after page load
-    setTimeout(() => {
+    // Try to play on page load
+    const tryPlay = () => {
         const playPromise = smallVideo.play();
-        
         if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.log("Autoplay prevented, waiting for user interaction");
-                // Show play button overlay
-                if (playOverlay) {
-                    playOverlay.style.opacity = '1';
+            playPromise.then(() => {
+                console.log("Small video autoplay successful");
+                if (videoOverlay) {
+                    videoOverlay.style.opacity = '0.5';
+                }
+            }).catch(error => {
+                console.log("Autoplay prevented:", error);
+                if (videoOverlay) {
+                    videoOverlay.style.opacity = '1';
+                    videoOverlay.style.cursor = 'pointer';
                 }
             });
         }
-    }, 1000);
+    };
     
-    // Play on user interaction
-    document.addEventListener('click', function firstClick() {
-        if (smallVideo.paused) {
+    // Try after a short delay
+    setTimeout(tryPlay, 500);
+    
+    // Also try when user interacts with page
+    document.addEventListener('click', function initVideoOnInteraction() {
+        if (smallVideo.paused && !videoModalOpen) {
             const playPromise = smallVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    console.log("Video started playing after user interaction");
-                }).catch(e => {
-                    console.log("Still cannot play:", e);
+                    console.log("Video started on user interaction");
+                    if (videoOverlay) {
+                        videoOverlay.style.opacity = '0.5';
+                    }
                 });
             }
         }
-        // Remove this listener after first interaction
-        document.removeEventListener('click', firstClick);
+        document.removeEventListener('click', initVideoOnInteraction);
     });
+    
+    // Handle overlay click to play if video is paused
+    if (videoOverlay) {
+        videoOverlay.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent triggering the project overlay
+            if (smallVideo.paused) {
+                smallVideo.play().then(() => {
+                    videoOverlay.style.opacity = '0.5';
+                }).catch(error => {
+                    console.log("Could not play video on overlay click:", error);
+                    // Fallback to opening modal
+                    openVideoModal();
+                });
+            }
+        });
+    }
 }
 
 // Initialize everything when DOM is loaded
@@ -252,10 +295,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Close modal with Escape key
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && videoModalOpen) {
             closeVideoModal();
         }
     });
+    
+    // Handle video ended event in modal
+    const largeVideo = document.getElementById('largeVideo');
+    if (largeVideo) {
+        largeVideo.addEventListener('ended', function() {
+            this.currentTime = 0;
+        });
+    }
 });
 
 // Intersection Observer for fade-in animations
