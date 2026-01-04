@@ -141,12 +141,29 @@
         <div class="projects-grid">
             <div class="project-card">
                 <div class="project-image">
+                    <!-- Video Widget for Ouma's Delicacy -->
+                    <div class="video-widget-small">
+                        <video id="smallVideo" class="video-player" muted loop playsinline preload="auto">
+                            <source src="assets/OumaDelVid.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-overlay" onclick="openVideoModal()">
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="video-label">
+                                <i class="fas fa-mobile-alt"></i> Tap to Play Demo
+                            </div>
+                        </div>
                     </div>
                     <div class="project-overlay">
                         <div class="project-links">
                             <a href="https://github.com/DorineW/oumas_delicacy" target="_blank" class="project-link">
                                 <i class="fab fa-github"></i>
                             </a>
+                            <div class="project-link" onclick="openVideoModal()">
+                                <i class="fas fa-play"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
