@@ -193,3 +193,160 @@ document.querySelectorAll('.project-card, .contact-item, .about-text, .skills-pr
 window.addEventListener('resize', () => {
     // Re-initialize any responsive elements if needed
 });
+// Video Modal Functions
+function openVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const smallVideo = document.getElementById('smallVideo');
+    const largeVideo = document.getElementById('largeVideo');
+    
+    // Pause small video
+    smallVideo.pause();
+    
+    // Show modal and play large video
+    modal.style.display = 'flex';
+    largeVideo.currentTime = smallVideo.currentTime;
+    
+    // Try to play the large video
+    const playPromise = largeVideo.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Autoplay prevented:", error);
+        });
+    }
+    
+    document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const smallVideo = document.getElementById('smallVideo');
+    const largeVideo = document.getElementById('largeVideo');
+    
+    // Pause large video and resume small video
+    largeVideo.pause();
+    largeVideo.currentTime = 0; // Reset to beginning
+    
+    // Resume small video
+    const playPromise = smallVideo.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Small video autoplay prevented:", error);
+        });
+    }
+    
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Certificate Modal Functions
+function openCertificateModal(imageSrc, title) {
+    const modal = document.getElementById('certificateModal');
+    const image = document.getElementById('certificateImage');
+    image.src = imageSrc;
+    image.alt = title;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCertificateModal() {
+    const modal = document.getElementById('certificateModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function downloadCertificate() {
+    const image = document.getElementById('certificateImage');
+    const link = document.createElement('a');
+    link.href = image.src;
+    link.download = image.alt.replace(/\s+/g, '_') + '.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Close modals when clicking outside
+document.addEventListener('click', function(event) {
+    const certModal = document.getElementById('certificateModal');
+    const videoModal = document.getElementById('videoModal');
+    
+    if (event.target === certModal) {
+        closeCertificateModal();
+    }
+    if (event.target === videoModal) {
+        closeVideoModal();
+    }
+});
+
+// Close modals with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeCertificateModal();
+        closeVideoModal();
+    }
+});
+
+// Initialize small video with user interaction
+function initVideoPlayback() {
+    const smallVideo = document.getElementById('smallVideo');
+    const playOverlay = document.querySelector('.video-overlay');
+    
+    if (!smallVideo) return;
+    
+    // Try to autoplay on page load
+    smallVideo.muted = true;
+    
+    // Try to play with a small delay after page load
+    setTimeout(() => {
+        const playPromise = smallVideo.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay prevented, waiting for user interaction");
+                // Show play button overlay
+                if (playOverlay) {
+                    playOverlay.style.opacity = '1';
+                }
+            });
+        }
+    }, 1000);
+    
+    // Play on user interaction
+    document.addEventListener('click', function firstClick() {
+        const playPromise = smallVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log("Video started playing after user interaction");
+            }).catch(e => {
+                console.log("Still cannot play:", e);
+            });
+        }
+        // Remove this listener after first interaction
+        document.removeEventListener('click', firstClick);
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Start existing animations
+    setTimeout(animateStats, 500);
+    setTimeout(initTypingAnimation, 800);
+    setTimeout(animateSkills, 1000);
+    
+    // Initialize effects
+    initGlitchEffect();
+    initScanEffects();
+    initFloatingParticles();
+    
+    // Initialize video
+    initVideoPlayback();
+    
+    // Add loading animation
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+});
