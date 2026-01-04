@@ -24,28 +24,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Animate stats counting
-function animateStats() {
-    const statNumbers = document.querySelectorAll('.stat-number');
-    
-    statNumbers.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-target'));
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                stat.textContent = target + (stat.getAttribute('data-target').includes('+') ? '+' : '');
-                clearInterval(timer);
-            } else {
-                stat.textContent = Math.floor(current);
-            }
-        }, 16);
-    });
-}
-
 // Animate skill bars on scroll
 function animateSkills() {
     const skillBars = document.querySelectorAll('.skill-progress');
@@ -65,7 +43,7 @@ function animateSkills() {
 
 // Typing animation for hero text
 function initTypingAnimation() {
-    const text = "Data Analyst & Full-Stack Developer";
+    const text = "Data Analyst & Developer";
     const element = document.querySelector('.typing-animation');
     let index = 0;
     
@@ -145,54 +123,6 @@ function initFloatingParticles() {
     document.head.appendChild(style);
 }
 
-// Initialize all animations when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Start animations with delays
-    setTimeout(animateStats, 500);
-    setTimeout(initTypingAnimation, 800);
-    setTimeout(animateSkills, 1000);
-    
-    // Initialize effects
-    initGlitchEffect();
-    initScanEffects();
-    initFloatingParticles();
-    
-    // Add loading animation
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animation
-document.querySelectorAll('.project-card, .contact-item, .about-text, .skills-preview, .skill-category').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    // Re-initialize any responsive elements if needed
-});
 // Video Modal Functions
 function openVideoModal() {
     const modal = document.getElementById('videoModal');
@@ -200,19 +130,24 @@ function openVideoModal() {
     const largeVideo = document.getElementById('largeVideo');
     
     // Pause small video
-    smallVideo.pause();
+    if (smallVideo) {
+        smallVideo.pause();
+    }
     
     // Show modal and play large video
     modal.style.display = 'flex';
-    largeVideo.currentTime = smallVideo.currentTime;
+    if (smallVideo && largeVideo) {
+        largeVideo.currentTime = smallVideo.currentTime;
+    }
     
     // Try to play the large video
-    const playPromise = largeVideo.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.log("Autoplay prevented:", error);
-        });
+    if (largeVideo) {
+        const playPromise = largeVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay prevented:", error);
+            });
+        }
     }
     
     document.body.style.overflow = 'hidden';
@@ -224,68 +159,24 @@ function closeVideoModal() {
     const largeVideo = document.getElementById('largeVideo');
     
     // Pause large video and resume small video
-    largeVideo.pause();
-    largeVideo.currentTime = 0; // Reset to beginning
+    if (largeVideo) {
+        largeVideo.pause();
+        largeVideo.currentTime = 0; // Reset to beginning
+    }
     
     // Resume small video
-    const playPromise = smallVideo.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.log("Small video autoplay prevented:", error);
-        });
+    if (smallVideo) {
+        const playPromise = smallVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Small video autoplay prevented:", error);
+            });
+        }
     }
     
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
-
-// Certificate Modal Functions
-function openCertificateModal(imageSrc, title) {
-    const modal = document.getElementById('certificateModal');
-    const image = document.getElementById('certificateImage');
-    image.src = imageSrc;
-    image.alt = title;
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCertificateModal() {
-    const modal = document.getElementById('certificateModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-function downloadCertificate() {
-    const image = document.getElementById('certificateImage');
-    const link = document.createElement('a');
-    link.href = image.src;
-    link.download = image.alt.replace(/\s+/g, '_') + '.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-// Close modals when clicking outside
-document.addEventListener('click', function(event) {
-    const certModal = document.getElementById('certificateModal');
-    const videoModal = document.getElementById('videoModal');
-    
-    if (event.target === certModal) {
-        closeCertificateModal();
-    }
-    if (event.target === videoModal) {
-        closeVideoModal();
-    }
-});
-
-// Close modals with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeCertificateModal();
-        closeVideoModal();
-    }
-});
 
 // Initialize small video with user interaction
 function initVideoPlayback() {
@@ -314,13 +205,15 @@ function initVideoPlayback() {
     
     // Play on user interaction
     document.addEventListener('click', function firstClick() {
-        const playPromise = smallVideo.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                console.log("Video started playing after user interaction");
-            }).catch(e => {
-                console.log("Still cannot play:", e);
-            });
+        if (smallVideo.paused) {
+            const playPromise = smallVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Video started playing after user interaction");
+                }).catch(e => {
+                    console.log("Still cannot play:", e);
+                });
+            }
         }
         // Remove this listener after first interaction
         document.removeEventListener('click', firstClick);
@@ -330,7 +223,6 @@ function initVideoPlayback() {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Start existing animations
-    setTimeout(animateStats, 500);
     setTimeout(initTypingAnimation, 800);
     setTimeout(animateSkills, 1000);
     
@@ -349,4 +241,47 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+        const videoModal = document.getElementById('videoModal');
+        if (event.target === videoModal) {
+            closeVideoModal();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeVideoModal();
+        }
+    });
+});
+
+// Intersection Observer for fade-in animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.querySelectorAll('.project-card, .contact-item, .about-text, .skills-preview, .skill-category, .certification-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    // Re-initialize any responsive elements if needed
 });
